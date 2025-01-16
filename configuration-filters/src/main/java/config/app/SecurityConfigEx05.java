@@ -13,20 +13,25 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigEx05 {
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return new WebSecurityCustomizer() {
-            @Override
-            public void customize(WebSecurity web) {
-                web
-                    .ignoring()
-                    .requestMatchers(new AntPathRequestMatcher("/assets/**"));
-            }
-        };
-    }
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return new WebSecurityCustomizer() {
+			@Override
+			public void customize(WebSecurity web) {
+				web.ignoring().requestMatchers(new AntPathRequestMatcher("/assets/**"));
+			}
+		};
+	}
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.formLogin((formLogin) -> {
+			formLogin.loginPage("/user/login");
+		}).authorizeHttpRequests((authorizeRequests) -> {
+			/* ACL */
+			authorizeRequests.requestMatchers(new RegexRequestMatcher("^/board/?(write|delete|modify|reply).*$", null))
+					.authenticated().anyRequest().permitAll();
+		});
+		return http.build();
+	}
 }

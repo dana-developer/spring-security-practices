@@ -1,4 +1,4 @@
-package config.web;
+package config.app;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class SecurityConfigEx01 {
 
 	@Bean
-	public FilterChainProxy securityFilterChainProxy() {
+	public FilterChainProxy springSecurityFilterChain() {
 		List<SecurityFilterChain> securityFilterChains = Arrays.asList(
 				new SecurityFilterChain() {
 
@@ -40,7 +40,7 @@ public class SecurityConfigEx01 {
 					@Override
 					public boolean matches(HttpServletRequest request) {
 						String uri = request.getRequestURI().replaceAll(request.getContextPath(), "");
-						return new AntPathMatcher().match("/assets/**", uri);
+						return new AntPathMatcher().match("/ping/**", uri);
 					}
 
 					@Override

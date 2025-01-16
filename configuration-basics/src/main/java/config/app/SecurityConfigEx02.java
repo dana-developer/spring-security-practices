@@ -1,4 +1,4 @@
-package config.web;
+package config.app;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,21 +11,22 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigEx03 {
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return new WebSecurityCustomizer() {
-            @Override
-            public void customize(WebSecurity web) {
-                web
-                    .ignoring()
-                    .requestMatchers(new AntPathRequestMatcher("/assets/**"));
-            }
-        };
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.build();
-    }
+public class SecurityConfigEx02 {
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+	    return new WebSecurityCustomizer() {
+	        @Override
+	        public void customize(WebSecurity web) {
+	            web
+	                .ignoring()
+	                .requestMatchers(new AntPathRequestMatcher("/assets/**"));
+	        }
+	    };
+	}
+	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Throwable{ 
+		// httpSecurity가 builder
+		return http.build();
+	}
 }
